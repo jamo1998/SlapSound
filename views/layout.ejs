@@ -1,15 +1,49 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Auth Boilerplate</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="/css/main.css" type="text/css" />
+    <title>SoundSlap</title>
   </head>
   <body>
     <header>
-      <h1>SoundSlap</h1>
+      <div class="row">
+        <nav>
+          <div class="nav-wrapper container">
+            <% if (currentUser) { %>
+            <a href="#" class="brand-logo">SoundSlap</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="/search">Search Music</a></li>
+              <li><a href="/likes">Likes</a></li>
+              <li><a href="/profile">Profile</a></li>
+              <li><a href="/auth/logout">Logout</a></li>
+            </ul>
+            <% } else { %>
+            <a href="#" class="brand-logo">SoundSlap</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="/search">Search Music</a></li>
+              <li><a href="/likes">Likes</a></li>
+              <li><a href="/auth/register">Register</a></li>
+              <li><a href="/auth/login">Login</a></li>
+            </ul>
+            <% } %>
+          </div>
+        </nav>
+      </div>
     </header>
-    <div class="container">
-      <h2>Authenticating Users 🐋</h2>
-      <%- body %>
-    </div>
+
+    <%- body %>
+
+    <script src="/js/app.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </body>
 </html>

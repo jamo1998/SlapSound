@@ -9,6 +9,7 @@ const passport = require("./config/passportConfig");
 const db = require("./models");
 const isLoggedIn = require("./middlewares/isLoggedIn");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const Spotify = require("node-spotify-api");
 
 // app setup
 const app = Express();
@@ -58,12 +59,78 @@ app.get("/profile", isLoggedIn, function (req, res) {
   res.render("profile");
 });
 
+let spotify = new Spotify({
+  id: process.env.SPOTIFY_CLIENT_ID,
+  secret: process.env.SPOTIFY_CLIENT_SECRET,
+});
+
+app.get("/artist-search", (req, res) => {
+  spotify
+    .search({ type: "artist", query: req.query.userInput })
+    .then(function (response) {
+      res.send(response);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+});
+
+app.get("/album-search", (req, res) => {
+  spotify
+    .search({ type: "album", query: req.query.userInput })
+    .then(function (response) {
+      res.send(response);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+});
+
+// GET ALL LIKES
+app.get("/likes", (req, res) => {
+  db.like
+    .findAll({
+      include: [db.user],
+    })
+    .then((likes) => {
+      res.render("likes", { likes: likes });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// ADD SONG TO LIKES
+app.post("/likes", (req, res) => {
+  db.like
+    .findOrCreate({
+      where: {
+        trackId: req.body.trackId,
+      },
+      // If song with ^^ trackId doesn't exist, create new like
+      defaults: {
+        songTitle: req.body.songTitle,
+        artist: req.body.artist,
+        album: req.body.album,
+        imageUrl: req.body.imageUrl,
+        previewUrl: req.body.previewUrl,
+        userId: req.body.userId,
+      },
+    })
+    .then(([like, created]) => {
+      console.log(`🌎 ${like.songTitle} was ${created ? "created" : "found"}!`);
+      res.redirect("/likes");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // include auth controller
 app.use("/auth", require("./controllers/auth"));
+app.use("/search", require("./controllers/search"));
 
 // initialize App on Port
 app.listen(process.env.PORT || 3000, function () {
-  console.log(
-    `Listening to the smooth sweet sounds of port ${process.env.PORT} in the morning ☕️.`
-  );
+  console.log(`Listening on localhost: ${process.env.PORT}!!`);
 });

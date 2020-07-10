@@ -1,0 +1,14 @@
+body {
+  background-color: #424242;
+  color: #ffffff;
+}
+
+.card {
+  color: #000000;
+}
+
+.add-btn {
+  position: relative;
+  bottom: 3px;
+  right: 4px;
+}

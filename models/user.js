@@ -89,6 +89,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   user.associate = function (models) {
     // TODO: any user associations
+    models.user.hasMany(models.like);
   };
 
   // validPassword definition to validate password at user login

@@ -1,0 +1,80 @@
+<div class="row">
+  <ul>
+    <% songData.forEach((song, index) => { %>
+    <li>
+      <div class="col m4">
+        <div class="card">
+          <div class="card-image">
+            <img src="<%= song.album.images[0].url %>" />
+            <!-- <a class="btn-floating halfway-fab waves-effect waves-light red"
+              ><i class="material-icons">add</i></a
+            > -->
+          </div>
+          <div class="card-content">
+            <span class="card-title"><%= song.name %></span>
+            <p>
+              Artist: <%= song.artists[0].name %><br />
+              Album: <%= song.album.name %><br />
+              Released: <%= song.album.release_date %><br />
+              Preview:
+              <a href="<%= song.preview_url %>" target="__blank">Preview Song</a
+              ><br />
+              <br />
+            </p>
+            <form action="/likes" method="POST">
+              <input
+                type="text"
+                class="hide"
+                value="<%= song.name %>"
+                name="songTitle"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= song.artists[0].name %>"
+                name="artist"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= song.album.name %>"
+                name="album"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= song.album.images[0].url %>"
+                name="imageUrl"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= song.preview_url %>"
+                name="previewUrl"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= song.id %>"
+                name="trackId"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= currentUser.id %>"
+                name="userId"
+              />
+              <button type="submit" class="btn">
+                <span class="add-btn">Add to likes</span>
+                <i class="material-icons">thumb_up</i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <br />
+    <% }) %>
+  </ul>
+</div>
