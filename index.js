@@ -10,6 +10,7 @@ const db = require("./models");
 const isLoggedIn = require("./middlewares/isLoggedIn");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const Spotify = require("node-spotify-api");
+const methodOverride = require("method-override");
 
 // app setup
 const app = Express();
@@ -17,6 +18,7 @@ app.use(Express.urlencoded({ extended: false }));
 app.use(Express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(ejsLayouts);
+app.use(methodOverride("_method"));
 app.use(require("morgan")("dev"));
 app.use(helmet());
 
@@ -55,6 +57,7 @@ app.get("/", function (req, res) {
   res.render("index");
 });
 
+// GET PROFILE AFTER USER LOGS IN
 app.get("/profile", isLoggedIn, function (req, res) {
   res.render("profile");
 });
@@ -64,32 +67,13 @@ let spotify = new Spotify({
   secret: process.env.SPOTIFY_CLIENT_SECRET,
 });
 
-app.get("/artist-search", (req, res) => {
-  spotify
-    .search({ type: "artist", query: req.query.userInput })
-    .then(function (response) {
-      res.send(response);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-});
-
-app.get("/album-search", (req, res) => {
-  spotify
-    .search({ type: "album", query: req.query.userInput })
-    .then(function (response) {
-      res.send(response);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-});
-
-// GET ALL LIKES
-app.get("/likes", (req, res) => {
+// GET ALL LIKES FOR A SPECIFIC USER
+app.get("/:id/likes", (req, res) => {
   db.like
     .findAll({
+      where: {
+        userId: req.params.id,
+      },
       include: [db.user],
     })
     .then((likes) => {
@@ -119,7 +103,125 @@ app.post("/likes", (req, res) => {
     })
     .then(([like, created]) => {
       console.log(`🌎 ${like.songTitle} was ${created ? "created" : "found"}!`);
-      res.redirect("/likes");
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get("/:id/artists", (req, res) => {
+  db.artist
+    .findAll({
+      where: {
+        userId: req.params.id,
+      },
+      include: [db.user],
+    })
+    .then((artists) => {
+      res.render("artists", { artists: artists });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// ADD ATISTS TO LIKES
+app.post("/artists", (req, res) => {
+  db.artist
+    .findOrCreate({
+      where: {
+        artistId: req.body.artistId,
+      },
+      // If song with ^^ trackId doesn't exist, create new like
+      defaults: {
+        artistName: req.body.artistName,
+        artistFollowers: req.body.artistFollowers,
+        genre: req.body.genre,
+        userId: req.body.userId,
+      },
+    })
+    .then(([artist, created]) => {
+      console.log(
+        `🌎 ${artist.artistName} was ${created ? "created" : "found"}!`
+      );
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// DELETE ARTIST BY ID
+app.delete("/artists/delete/:id", (req, res) => {
+  db.artist
+    .destroy({
+      where: {
+        artistId: req.params.id,
+      },
+    })
+    .then((artists) => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// DELTE LIKE BY ID
+app.delete("/likes/delete/:id", (req, res) => {
+  db.like
+    .destroy({
+      where: {
+        id: req.params.id,
+      },
+    })
+    .then((likes) => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// GET ALBUMS BY USER ID
+app.get("/:id/albums", (req, res) => {
+  db.album
+    .findAll({
+      where: {
+        userId: req.params.id,
+      },
+      include: [db.user],
+    })
+    .then((albums) => {
+      res.render("albums", { albums: albums });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// ADD ALBUMS TO LIKES
+app.post("/albums", (req, res) => {
+  db.album
+    .findOrCreate({
+      where: {
+        albumId: req.body.albumId,
+      },
+      // If song with ^^ trackId doesn't exist, create new like
+      defaults: {
+        albumName: req.body.albumName,
+        albumArtist: req.body.albumArtist,
+        releaseDate: req.body.releaseDate,
+        tracks: req.body.tracks,
+        userId: req.body.userId,
+      },
+    })
+    .then(([album, created]) => {
+      console.log(
+        `🌎 ${album.albumName} was ${created ? "created" : "found"}!`
+      );
+      res.redirect("/");
     })
     .catch((err) => {
       console.log(err);

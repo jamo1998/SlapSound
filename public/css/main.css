@@ -12,3 +12,12 @@ body {
   bottom: 3px;
   right: 4px;
 }
+
+.profile-pic {
+  border-radius: 500px;
+}
+
+.profile {
+  margin: 0 auto;
+  text-align: center;
+}

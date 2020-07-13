@@ -28,4 +28,29 @@ router.get("/song-search", (req, res) => {
     });
 });
 
+router.get("/artist-search", (req, res) => {
+  spotify
+    .search({ type: "artist", query: req.query.userInput })
+    .then(function (response) {
+      let result = response.artists.items;
+      res.render("search/artistResult", { artistData: result });
+      // res.send(response);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+});
+router.get("/album-search", (req, res) => {
+  spotify
+    .search({ type: "album", query: req.query.userInput })
+    .then(function (response) {
+      let result = response.albums.items;
+      res.render("search/albumResult", { albumData: result });
+      // res.send(result);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+});
+
 module.exports = router;

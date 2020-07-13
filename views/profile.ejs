@@ -1,1 +1,24 @@
-<h2>Hi <%= currentUser.username %>. Welcome to the app!</h2>
+<div class="container align-center profile">
+  <img
+    class="profile-pic"
+    src="<%= currentUser.profilePicUrl %>"
+    width="200px"
+    height="200px"
+    alt=""
+  />
+  <br /><br />
+  <h2><%= currentUser.username %></h2>
+  <div><%= currentUser.bio %></div>
+
+  <div class="row">
+    <div class="col m4">
+      <a href="/<%= currentUser.id %>/likes"><h3>Likes</h3></a>
+    </div>
+    <div class="col m4">
+      <a href="/<%= currentUser.id %>/artists"><h3>Artists</h3></a>
+    </div>
+    <div class="col m4">
+      <a href="/<%= currentUser.id %>/albums"><h3>Albums</h3></a>
+    </div>
+  </div>
+</div>
