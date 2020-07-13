@@ -87,23 +87,18 @@ app.get("/:id/likes", (req, res) => {
 // ADD SONG TO LIKES
 app.post("/likes", (req, res) => {
   db.like
-    .findOrCreate({
-      where: {
-        trackId: req.body.trackId,
-      },
-      // If song with ^^ trackId doesn't exist, create new like
-      defaults: {
-        songTitle: req.body.songTitle,
-        artist: req.body.artist,
-        album: req.body.album,
-        imageUrl: req.body.imageUrl,
-        previewUrl: req.body.previewUrl,
-        userId: req.body.userId,
-      },
+    .create({
+      songTitle: req.body.songTitle,
+      artist: req.body.artist,
+      album: req.body.album,
+      imageUrl: req.body.imageUrl,
+      trackId: req.body.trackId,
+      previewUrl: req.body.previewUrl,
+      userId: req.body.userId,
     })
-    .then(([like, created]) => {
-      console.log(`🌎 ${like.songTitle} was ${created ? "created" : "found"}!`);
-      res.redirect("/");
+    .then((like) => {
+      console.log(`🌎 ${like.songTitle} was created!`);
+      res.redirect("/profile");
     })
     .catch((err) => {
       console.log(err);
@@ -129,23 +124,15 @@ app.get("/:id/artists", (req, res) => {
 // ADD ATISTS TO LIKES
 app.post("/artists", (req, res) => {
   db.artist
-    .findOrCreate({
-      where: {
-        artistId: req.body.artistId,
-      },
-      // If song with ^^ trackId doesn't exist, create new like
-      defaults: {
-        artistName: req.body.artistName,
-        artistFollowers: req.body.artistFollowers,
-        genre: req.body.genre,
-        userId: req.body.userId,
-      },
+    .create({
+      artistName: req.body.artistName,
+      artistFollowers: req.body.artistFollowers,
+      genre: req.body.genre,
+      userId: req.body.userId,
     })
-    .then(([artist, created]) => {
-      console.log(
-        `🌎 ${artist.artistName} was ${created ? "created" : "found"}!`
-      );
-      res.redirect("/");
+    .then((artist) => {
+      console.log(`🌎 ${artist.artistName} was created!`);
+      res.redirect("/profile");
     })
     .catch((err) => {
       console.log(err);
@@ -204,24 +191,43 @@ app.get("/:id/albums", (req, res) => {
 // ADD ALBUMS TO LIKES
 app.post("/albums", (req, res) => {
   db.album
-    .findOrCreate({
-      where: {
-        albumId: req.body.albumId,
-      },
-      // If song with ^^ trackId doesn't exist, create new like
-      defaults: {
-        albumName: req.body.albumName,
-        albumArtist: req.body.albumArtist,
-        releaseDate: req.body.releaseDate,
-        tracks: req.body.tracks,
-        userId: req.body.userId,
-      },
+    .create({
+      albumName: req.body.albumName,
+      albumArtist: req.body.albumArtist,
+      releaseDate: req.body.releaseDate,
+      tracks: req.body.tracks,
+      userId: req.body.userId,
     })
-    .then(([album, created]) => {
-      console.log(
-        `🌎 ${album.albumName} was ${created ? "created" : "found"}!`
-      );
-      res.redirect("/");
+    .then((album) => {
+      console.log(`🌎 ${album.albumName} was created!`);
+      res.redirect("/profile");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get("/posts", (req, res) => {
+  db.post.findAll({}).then((post) => {
+    res.render("posts", { posts: post });
+  });
+});
+
+app.post("/posts", (req, res) => {
+  db.post
+    .create({
+      songTitle: req.body.songTitle,
+      artist: req.body.artist,
+      album: req.body.album,
+      imageUrl: req.body.imageUrl,
+      previewUrl: req.body.previewUrl,
+      content: req.body.content,
+      author: req.body.author,
+      userId: req.body.userId,
+    })
+    .then((post) => {
+      console.log("Post was created!");
+      res.redirect("/posts");
     })
     .catch((err) => {
       console.log(err);

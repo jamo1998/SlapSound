@@ -25,6 +25,60 @@
                   >Delete song</a
                 >
                 </form>
+                <form action="/posts" method="POST">
+                  <input
+                type="text"
+                class="hide"
+                value="<%= like.songTitle %>"
+                name="songTitle"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= like.artist %>"
+                name="artist"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= like.album %>"
+                name="album"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= like.imageUrl %>"
+                name="imageUrl"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= like.previewUrl %>"
+                name="previewUrl"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= currentUser.username %> wants you to listen to this song"
+                name="content"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= currentUser.username %>"
+                name="author"
+              />
+              <input
+                type="text"
+                class="hide"
+                value="<%= currentUser.id %>"
+                name="userId"
+              />
+              <button type="submit" class="btn">
+                <span class="add-btn">Post Song</span>
+                <i class="material-icons">send</i>
+              </button>
+                </form>
               </p>
             </div>
           </div>

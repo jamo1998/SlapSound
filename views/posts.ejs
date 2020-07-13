@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <ul>
+      <% posts.forEach((post, index) => { %>
+
+      <li class="collection-item avatar">
+        <img
+          src="<%= post.imageUrl %>"
+          alt=""
+          class="circle"
+          width="100px"
+          height="100px"
+        />
+        <br />
+        <span class="title"><%= post.songTitle %></span>
+        <p>
+          Artist: <%= post.artist %> <br />
+          Album: <%= post.album %><br />
+          <a href="<%= post.previewUrl %>">Preview Song</a><br />
+          <span class="author">Author: <%= post.author %></span>
+        </p>
+        <a href="#!" class="secondary-content"
+          ><i class="material-icons">grade</i></a
+        >
+      </li>
+
+      <br />
+      <% }) %>
+    </ul>
+  </div>
+</div>

@@ -1,6 +1,16 @@
 body {
   background-color: #424242;
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
 }
 
 .card {
@@ -20,4 +30,10 @@ body {
 .profile {
   margin: 0 auto;
   text-align: center;
+}
+
+.author {
+  position: relative;
+  left: 910px;
+  bottom: 10px;
 }

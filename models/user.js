@@ -92,6 +92,7 @@ module.exports = (sequelize, DataTypes) => {
     models.user.hasMany(models.like);
     models.user.hasMany(models.artist);
     models.user.hasMany(models.album);
+    models.user.hasMany(models.post);
   };
 
   // validPassword definition to validate password at user login

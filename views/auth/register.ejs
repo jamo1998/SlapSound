@@ -1,46 +1,87 @@
-<form action="/auth/register" method="POST">
-  <div class="form-group">
-    <label for="authEmail">Email</label>
-    <input id="authEmail" class="form-control" type="text" name="email" />
-  </div>
-  <div class="form-group">
-    <label for="authFirstName">First Name</label>
-    <input
-      id="authFirstName"
-      class="form-control"
-      type="text"
-      name="firstName"
-    />
-  </div>
-  <div class="form-group">
-    <label for="authLastName">Last Name</label>
-    <input id="authLastName" class="form-control" type="text" name="lastName" />
-  </div>
-  <div class="form-group">
-    <label for="authUsername">Username</label>
-    <input id="authUsername" class="form-control" type="text" name="username" />
-  </div>
-  <div class="form-group">
-    <label for="authPassword">Password</label>
-    <input
-      id="authPassword"
-      class="form-control"
-      type="password"
-      name="password"
-    />
-  </div>
-  <div class="form-group">
-    <label for="authBio">Bio</label>
-    <input id="authBio" class="form-control" type="text" name="bio" />
-  </div>
-  <div class="form-group">
-    <label for="authProfilePicUrl">Profile Pic</label>
-    <input
-      id="authProfilePicUrl"
-      class="form-control"
-      type="text"
-      name="profilePicUrl"
-    />
-  </div>
-  <input class="btn" type="submit" />
-</form>
+<div class="container">
+  <form class="white-text" action="/auth/register" method="POST">
+    <div class="row">
+      <div class="col m6">
+        <div class="form-group white-text">
+          <label for="authEmail">Email</label>
+          <input id="authEmail" class="form-control" type="text" name="email" style="color: white;"/>
+        </div>
+      </div>
+      <div class="col m6">
+        <div class="form-group">
+          <label for="authUsername">Username</label>
+          <input
+            id="authUsername"
+            class="form-control"
+            type="text"
+            name="username"
+            style="color: white;"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col m6">
+        <div class="form-group">
+          <label for="authFirstName">First Name</label>
+          <input
+            id="authFirstName"
+            class="form-control"
+            type="text"
+            name="firstName"
+            style="color: white;"
+          />
+        </div>
+      </div>
+      <div class="col m6">
+        <div class="form-group">
+          <label for="authLastName">Last Name</label>
+          <input
+            id="authLastName"
+            class="form-control"
+            type="text"
+            name="lastName"
+            style="color: white;"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col m12">
+        <div class="form-group">
+          <label for="authPassword">Password</label>
+          <input
+            id="authPassword"
+            class="form-control"
+            type="password"
+            name="password"
+            style="color: white;"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col m12">
+        <div class="form-group">
+          <label for="authBio">Bio</label>
+          <input id="authBio" class="form-control" type="text" name="bio" style="color: white;"/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col m12">
+        <div class="form-group">
+          <label for="authProfilePicUrl">Profile Pic Url</label>
+          <input
+            id="authProfilePicUrl"
+            class="form-control"
+            type="text"
+            name="profilePicUrl"
+            style="color: white;"
+          /><br></br>
+          <input class="btn" type="submit" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
